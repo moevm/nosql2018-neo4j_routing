@@ -10,7 +10,7 @@ var router = express.Router();
 
 neo4jdriver = neo4j.driver(
   "bolt://localhost:7687", neo4j.auth.basic("neo4j", "toor"),
-  { encrypted: false }
+  {encrypted: false}
 );
 
 // view engine setup
@@ -19,7 +19,7 @@ app.set('view engine', 'pug');
 
 app.use(logger('dev'));
 app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
+app.use(express.urlencoded({extended: false}));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
@@ -76,20 +76,23 @@ router.post('/import-map', function (req, res, next) {
     session
       .run(query, {
         fileName: fileName
-      });
-    session.run(query2);
-    session.run(query3);
-    session.run(query4);
-    session.run(query5);
-    session.run(query6);
-    session.run(query7);
-    session.run(query8);
-    session.run(query9);
-    session.run(query10);
-    session.run(query11);
+      })
+      .then(
+        function () {
+          session.run(query2);
+          session.run(query3);
+          session.run(query4);
+          session.run(query5);
+          session.run(query6);
+          session.run(query7);
+          session.run(query8);
+          session.run(query9);
+          session.run(query10);
+          session.run(query11);
+        }
+      );
     session.close();
-
-    res.json({ fileName: fileName });
+    res.json({fileName: fileName});
   });
 });
 
